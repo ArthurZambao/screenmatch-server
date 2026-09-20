@@ -3,24 +3,27 @@ package br.com.alura.Screenmatch.Principal;
 import br.com.alura.Screenmatch.model.DadosSerie;
 import br.com.alura.Screenmatch.model.DadosTemporada;
 import br.com.alura.Screenmatch.model.Episodio;
+import br.com.alura.Screenmatch.model.Serie;
+import br.com.alura.Screenmatch.repository.SerieRepository;
 import br.com.alura.Screenmatch.service.ConsumoApi;
 import br.com.alura.Screenmatch.service.ConverteDados;
 
-import java.util.ArrayList;
-import java.util.DoubleSummaryStatistics;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Principal {
 
-    private Scanner leitura = new Scanner(System.in);
-    private ConsumoApi consumo = new ConsumoApi();
-    private ConverteDados conversor = new ConverteDados();
+    private final Scanner leitura = new Scanner(System.in);
+    private final ConsumoApi consumo = new ConsumoApi();
+    private final ConverteDados conversor = new ConverteDados();
     private final String ENDERECO = "https://www.omdbapi.com/?t=";
     private final String API_KEY = "&apikey=f2d3a33e";
-    private List<DadosSerie> dadosSeries = new ArrayList<>();
+    private final List<DadosSerie> dadosSeries = new ArrayList<>();
+    private SerieRepository repositorio;
+
+    public Principal(SerieRepository repositorio) {
+        this.repositorio = repositorio;
+    }
 
     public void exibeMenu() {
         var opcao = -1;
@@ -57,12 +60,20 @@ public class Principal {
     }
 
     private void listarSeriesBuscadas() {
-        dadosSeries.forEach(System.out::println);
+        List<Serie> series = new ArrayList<>();
+        series = dadosSeries.stream()
+                .map(Serie::new)
+                .toList();
+
+        series.stream().sorted(Comparator.comparing(Serie::getGenero))
+                .forEach(System.out::println);
     }
 
     private void buscarSerieWeb() {
         DadosSerie dados = getDadosSerie();
-        dadosSeries.add(dados);
+        var serie = new Serie(dados);
+//        dadosSeries.add(dados);
+        repositorio.save(serie);
         System.out.println(dados);
     }
 
