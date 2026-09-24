@@ -1,4 +1,4 @@
-package br.com.alura.Screenmatch.Principal;
+package br.com.alura.Screenmatch.principal;
 
 import br.com.alura.Screenmatch.model.*;
 import br.com.alura.Screenmatch.repository.SerieRepository;
@@ -45,8 +45,7 @@ public class Principal {
                      7 - Buscar série por categoria
                      8 - Buscar séries por temporada e avaliação
                      9 - Buscar episódio por trecho
-                     10 - Buscar top 5 episódios por série
-                     11 - Buscar episódios a partir de uma data
+                     10 - Buscar episódios a partir de uma data
                     \s
                      0 - Sair                                \s
                     \s""";
@@ -84,9 +83,6 @@ public class Principal {
                     buscarEpisodioPorTrecho();
                     break;
                 case 10:
-                    topEpisodiosPorSerie();
-                    break;
-                case 11:
                     buscarEpisodiosDepoisDeUmaData();
                 case 0:
                     System.out.println("Saindo...");
@@ -213,18 +209,6 @@ public class Principal {
                 System.out.printf("Série: %s Temporada %s - Episódio %s - %s\n",
                         e.getSerie().getTitulo(), e.getTemporada(),
                         e.getNumeroEpisodio(), e.getTitulo()));
-    }
-
-    private void topEpisodiosPorSerie() {
-        buscarSeriePorTitulo();
-        if (serieBusca.isPresent()) {
-            Serie serie = serieBusca.get();
-            List<Episodio> topEpisodios = repositorio.topEpisodiosPorSerie(serie);
-            topEpisodios.forEach(e ->
-                    System.out.printf("Série: %s Temporada %s - Episódio %s - %s Avaliação %s\n",
-                            e.getSerie().getTitulo(), e.getTemporada(),
-                            e.getNumeroEpisodio(), e.getTitulo(), e.getAvaliacao()));
-        }
     }
 
     private void buscarEpisodiosDepoisDeUmaData() {

@@ -12,7 +12,7 @@ import java.net.http.HttpResponse;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class ConsultaGemini {
+public class  ConsultaGemini {
 
     // Tenta na ordem: se um modelo estiver sobrecarregado ou aposentado, vai pro próximo
     private static final String[] MODELOS = {
